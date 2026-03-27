@@ -1,15 +1,13 @@
 import os
 import json
 import logging
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import Response
 from fastapi.templating import Jinja2Templates
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-app = FastAPI(docs_url=None, redoc_url=None) # Disable swagger, unnecessary attack surface
-templates = Jinja2Templates(directory="templates")
 
 CONFIG_FILE = os.getenv("CONFIG_FILE", "/app/config/endpoints.json")
 
@@ -32,6 +30,15 @@ def get_config() -> dict:
         logger.error(f"Invalid JSON in {CONFIG_FILE}. Using last known good config.")
     
     return _config_cache
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("Starting up and pre-loading configuration...")
+    get_config()
+    yield
+
+app = FastAPI(docs_url=None, redoc_url=None, lifespan=lifespan)
+templates = Jinja2Templates(directory="templates")
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():

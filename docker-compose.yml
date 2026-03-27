@@ -7,7 +7,7 @@ services:
     expose:
       - "8000"
     volumes:
-      - ./config/endpoints.json:/app/config/endpoints.json:ro
+      - ./config:/app/config:ro
     environment:
       - CONFIG_FILE=/app/config/endpoints.json
     restart: unless-stopped
@@ -22,6 +22,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+      start_period: 5s
+      start_interval: 1s
 
     labels:
       - "traefik.enable=true"
