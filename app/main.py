@@ -40,6 +40,7 @@ async def favicon():
 @app.get("/{role}")
 async def serve_injector(request: Request, role: str):
     config = get_config()
+    logging.info(f"Role endpoint triggered: {role}")
     
     # Resolve the requested role or fallback to 'default'
     scripts = config.get(role)

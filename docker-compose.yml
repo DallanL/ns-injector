@@ -2,6 +2,8 @@ services:
   injector:
     build: .
     container_name: js-injector
+    networks:
+      - app_network
     expose:
       - "8000"
     volumes:
