@@ -7,9 +7,9 @@ This is designed for systems that only support a single JavaScript injection URL
 ## PBX Integration
 
 To use this service, you must point your PBX to the Traefik-routed domain of this container. 
-Update the **`EXTRA_JS`** UI configuration in your PBX to point to the desired role endpoint.
+Update the **`PORTAL_EXTRA_JS`** UI configuration in your PBX to point to the desired role endpoint.
 
-Example `EXTRA_JS` value: 
+Example `PORTAL_EXTRA_JS` value: 
 `https://injector.yourdomain.com/superuser`
 
 ## Prerequisites
